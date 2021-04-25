@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<!-- MyBatis的全局配置文件 -->
+<configuration>
+	<!-- 给实体类取别名，以后在mapper.xml里的resultType，不需要写全限名➕类名，而是只要写类名就行，并且不区分大小写。 -->
+	<typeAliases>
+		<package name="com.tedu.pojo" />
+	</typeAliases>
+
+	<settings>
+		<setting name="cacheEnabled" value="true"/>
+	</settings>
+	<!-- 开发环境，可以配置多个环境，例如：开发、测试 -->
+	<!-- 将environments的deault属性的值配置为dev, 那么就会选择dev的environment, dev是随便起的 -->
+	<environments default="dev">
+		<!-- environment可以配置多个环境 -->
+		<environment id="dev">
+			<!-- 事务管理方式：JDBC/MANAGED(JDBC：将事务交给JDBC管理/MANAGED：自己管理事务) -->
+			<!-- JDBC：将事务交给JDBC管理，默认一条SQL一次事务，如需要多条SQL一次事务，但是MyBatis自动开启事务，要手动提交 -->
+			<transactionManager type="JDBC" />
+			<!-- 配置数据源：JNDI：已过时/POOLED：使用连接池（推荐）/UNPOOLED：不使用连接池 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="com.mysql.cj.jdbc.Driver" />
+				<property name="url"
+					value="jdbc:mysql://localhost:3309/yonghedb?characterEncoding=utf8&amp;serverTimezone=Asia/Shanghai" />
+				<property name="username" value="root" />
+				<property name="password" value="root" />
+			</dataSource>
+		</environment>
+	</environments>
+	<!-- 导入xxxMapper.xml文件 -->
+	<!-- resource属性直接到类目录下去找指定位置的文件，/target/classes -->
+	<mappers>
+		<mapper resource="EmpMapper.xml" />
+		<!-- 需要扫描的接口，表示该包下所有接口都可使用注解 -->
+		<package name="com.tedu.dao" />
+	</mappers>
+</configuration>
